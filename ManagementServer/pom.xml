@@ -11,5 +11,13 @@
 
     <artifactId>rpg-management-server</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.jukusoft</groupId>
+            <artifactId>rpgcreator-server-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
 
 </project>
