@@ -1,0 +1,7 @@
+[MySQL]
+host=<IP>
+port=3306
+user=<DB User>
+password=<DB Password>
+dbName=<DB Name>
+prefix=rpg_
