@@ -35,6 +35,8 @@ public class LoginHandler implements EventHandler<ManCenterMessage> {
 
         System.out.println("try to login user '" + username + "'.");
 
+        //TODO: check login data
+
         //TODO: call handler
     }
 

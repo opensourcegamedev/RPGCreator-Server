@@ -30,22 +30,6 @@ public class ServerMain {
 
         //start server
         server.start();
-
-        /*netServer.connectHandler(socket -> {
-            System.out.println("new connection accepted, ip: " + socket.remoteAddress().host() + ", port: " + socket.remoteAddress().port());
-
-            //TODO: do something with socket, for example send an message
-        });
-
-        //start network server
-        netServer.listen(res -> {
-            if (res.succeeded()) {
-                System.out.println("RPGCreator Management Server is now listening on port " + res.result().actualPort());
-            } else {
-                System.err.println("Couldnt start network server.");
-                System.exit(1);
-            }
-        });*/
     }
 
 }
