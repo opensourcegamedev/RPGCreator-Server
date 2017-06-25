@@ -1,6 +1,7 @@
 package com.jukusoft.rpgcreator.server.mancenter;
 
 import com.jukusoft.rpgcreator.server.common.vertx.VertxIOServerFactory;
+import com.jukusoft.rpgcreator.server.mancenter.network.impl.ManCenterServer;
 import io.vertx.core.net.NetServer;
 
 /**
@@ -14,7 +15,7 @@ public class ServerMain {
         int port = 1234;
 
         //create vertx.io server
-        NetServer netServer = VertxIOServerFactory.createVertxServer(port);
+        //NetServer netServer = VertxIOServerFactory.createVertxServer(port);
 
         //welcome message
         System.out.println("################################################################");
@@ -23,7 +24,14 @@ public class ServerMain {
 
         System.out.println("try to start management server on port " + port + "now.");
 
-        netServer.connectHandler(socket -> {
+        //create new ManCenter server and set port
+        ManCenterServer server = new ManCenterServer();
+        server.setPort(port);
+
+        //start server
+        server.start();
+
+        /*netServer.connectHandler(socket -> {
             System.out.println("new connection accepted, ip: " + socket.remoteAddress().host() + ", port: " + socket.remoteAddress().port());
 
             //TODO: do something with socket, for example send an message
@@ -37,7 +45,7 @@ public class ServerMain {
                 System.err.println("Couldnt start network server.");
                 System.exit(1);
             }
-        });
+        });*/
     }
 
 }

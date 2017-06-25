@@ -82,6 +82,7 @@ public class VertxServer implements Server {
             }
         });
     }
+
     /**
      * add client
      *
@@ -89,7 +90,15 @@ public class VertxServer implements Server {
      */
     protected void addClient (NetSocket socket) {
         //create new client instance
-        Client client = new ManCenterClient(socket);
+        Client client = new ManCenterClient(socket, ((clientID, client1) -> {
+            //remove client from map
+            clientMap.remove(client1.getClientID());
+
+            //TODO: call listener
+
+            //cleanUp client
+            client1.shutdown();
+        }));
 
         //set close handler
         socket.closeHandler(v -> {
@@ -102,10 +111,28 @@ public class VertxServer implements Server {
             client.shutdown();
         });
 
+        //add exception handler
+        socket.exceptionHandler(e -> {
+            System.err.println("exception in client " + client.getClientID() + ": " + e.getLocalizedMessage());
+            e.printStackTrace();
+        });
+
         //put client to map
         this.clientMap.put(client.getClientID(), client);
     }
 
+    @Override
+    public void executeBlocking(Runnable runnable) {
+        this.vertx.executeBlocking(future -> {
+            //execute blocking code
+            runnable.run();
+
+            //task was executed
+            future.complete();
+        }, res -> {
+            //
+        });
+    }
 
     /**
      * list all clients

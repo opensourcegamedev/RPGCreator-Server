@@ -23,6 +23,11 @@ public interface Server {
     public void start ();
 
     /**
+    * execute an blocking task
+    */
+    public void executeBlocking(Runnable runnable);
+
+    /**
      * list all clients
      *
      * @return list with all connected clients

@@ -20,6 +20,13 @@ public interface Client<T> {
     public long getClientID ();
 
     /**
+    * check, if client is connected
+     *
+     * @return true, if client is connected
+    */
+    public boolean isConnected ();
+
+    /**
      * check, if client is authentificated
      */
     public boolean isAuthentificated ();
