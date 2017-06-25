@@ -72,6 +72,11 @@ public class ManCenterClient implements Client<ManCenterMessage> {
 
         //add exception handler
         socket.exceptionHandler(e -> {
+            if (e.getLocalizedMessage().contains("Verbindung wurde vom Remotehost geschlossen")) {
+                //dont log this message, because we already log this in close handler
+                return;
+            }
+
             System.err.println("exception in client " + this.getClientID() + ": " + e.getLocalizedMessage());
             e.printStackTrace();
         });
