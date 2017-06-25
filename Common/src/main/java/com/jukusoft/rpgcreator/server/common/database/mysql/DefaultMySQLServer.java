@@ -1,7 +1,9 @@
 package com.jukusoft.rpgcreator.server.common.database.mysql;
 
 import java.sql.*;
+import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by Justin on 26.06.2017.
@@ -12,6 +14,11 @@ public class DefaultMySQLServer implements MySQLServer {
     * mysql connection
     */
     protected Connection conn = null;
+
+    /**
+    * map with cached prepared statements
+    */
+    protected Map<String,PreparedStatement> preparedStatementMap = new ConcurrentHashMap<>();
 
     public DefaultMySQLServer () {
         //try to load the mysql driver
@@ -30,6 +37,12 @@ public class DefaultMySQLServer implements MySQLServer {
         props.put("password", password);
         props.put("autoReconnect", "true");
 
+        //cache prepared statements
+        props.put("cachePrepStmts", "true");
+        props.put("useServerPrepStmts", "true");
+        props.put("prepStmtCacheSize", "250");
+        props.put("prepStmtCacheSqlLimit", 2048);
+
         //try to connect to the database
         this.conn = DriverManager.getConnection("jdbc:mysql://" + ip + "/" + database, props);
     }
@@ -43,6 +56,20 @@ public class DefaultMySQLServer implements MySQLServer {
         stmt.close();
 
         return rs;
+    }
+
+    @Override
+    public PreparedStatement prepare(String query) throws SQLException {
+        PreparedStatement stmt = this.preparedStatementMap.get(query);
+
+        if (stmt == null) {
+            stmt = this.conn.prepareStatement(query);
+
+            //cache prepared statement
+            this.preparedStatementMap.put(query, stmt);
+        }
+
+        return stmt;
     }
 
     @Override
