@@ -9,11 +9,13 @@ import java.sql.SQLException;
  */
 public interface MySQLServer {
 
-    public void connect (String ip, int port, String user, String password, String database) throws SQLException;
+    public void connect (String ip, int port, String user, String password, String database, String prefix) throws SQLException;
 
     public ResultSet query(String sqlstatement) throws SQLException;
 
     public PreparedStatement prepare (String query) throws SQLException;
+
+    public String getPrefix ();
 
     public void disconnect ();
 

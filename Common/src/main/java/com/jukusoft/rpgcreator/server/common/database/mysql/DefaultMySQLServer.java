@@ -16,6 +16,11 @@ public class DefaultMySQLServer implements MySQLServer {
     protected Connection conn = null;
 
     /**
+    * table prefix
+    */
+    protected String prefix = "";
+
+    /**
     * map with cached prepared statements
     */
     protected Map<String,PreparedStatement> preparedStatementMap = new ConcurrentHashMap<>();
@@ -30,7 +35,10 @@ public class DefaultMySQLServer implements MySQLServer {
         }
     }
 
-    public void connect (String ip, int port, String user, String password, String database) throws SQLException {
+    @Override
+    public void connect (String ip, int port, String user, String password, String database, String prefix) throws SQLException {
+        this.prefix = prefix;
+
         //create the properties list with user, password and autoreconnect
         Properties props = new Properties();
         props.put("user", user);
@@ -70,6 +78,11 @@ public class DefaultMySQLServer implements MySQLServer {
         }
 
         return stmt;
+    }
+
+    @Override
+    public String getPrefix() {
+        return this.prefix;
     }
 
     @Override
