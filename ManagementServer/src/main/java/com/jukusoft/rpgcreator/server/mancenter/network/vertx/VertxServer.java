@@ -18,7 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * Created by Justin on 26.06.2017.
  */
-public class VertxServer implements Server {
+public abstract class VertxServer implements Server {
 
     /**
      * instance of vertx
@@ -100,9 +100,14 @@ public class VertxServer implements Server {
             client1.shutdown();
         }));
 
+        //initialize client
+        initClient(client);
+
         //put client to map
         this.clientMap.put(client.getClientID(), client);
     }
+
+    protected abstract void initClient (Client<ManCenterMessage> client);
 
     @Override
     public void executeBlocking(Runnable runnable) {

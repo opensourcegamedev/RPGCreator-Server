@@ -2,10 +2,10 @@ package com.jukusoft.rpgcreator.server.mancenter.network.vertx;
 
 import com.jukusoft.rpgcreator.server.mancenter.User;
 import com.jukusoft.rpgcreator.server.mancenter.network.Client;
-import com.jukusoft.rpgcreator.server.mancenter.network.NetworkReceiveEvents;
+import com.jukusoft.rpgcreator.server.mancenter.events.NetworkReceiveEvents;
 import com.jukusoft.rpgcreator.server.mancenter.network.handler.CloseHandler;
 import com.jukusoft.rpgcreator.server.mancenter.network.handler.impl.DistributedMessageHandler;
-import com.jukusoft.rpgcreator.server.mancenter.request.LoginHandler;
+import com.jukusoft.rpgcreator.server.mancenter.events.request.LoginHandler;
 import com.jukusoft.rpgcreator.server.mancenter.network.message.ManCenterMessage;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.net.NetSocket;

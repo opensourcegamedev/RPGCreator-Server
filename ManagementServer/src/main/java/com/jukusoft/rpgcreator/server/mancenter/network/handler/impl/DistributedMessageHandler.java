@@ -1,7 +1,7 @@
 package com.jukusoft.rpgcreator.server.mancenter.network.handler.impl;
 
 import com.jukusoft.rpgcreator.server.mancenter.network.Client;
-import com.jukusoft.rpgcreator.server.mancenter.network.NetworkReceiveEvents;
+import com.jukusoft.rpgcreator.server.mancenter.events.NetworkReceiveEvents;
 import com.jukusoft.rpgcreator.server.mancenter.network.handler.EventHandler;
 import com.jukusoft.rpgcreator.server.mancenter.network.message.ManCenterMessage;
 import com.jukusoft.rpgcreator.server.mancenter.network.message.MessageReceiver;

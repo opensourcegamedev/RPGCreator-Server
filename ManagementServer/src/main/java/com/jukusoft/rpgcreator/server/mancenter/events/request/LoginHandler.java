@@ -1,4 +1,4 @@
-package com.jukusoft.rpgcreator.server.mancenter.request;
+package com.jukusoft.rpgcreator.server.mancenter.events.request;
 
 import com.jukusoft.rpgcreator.server.mancenter.User;
 import com.jukusoft.rpgcreator.server.mancenter.network.AsyncResult;
