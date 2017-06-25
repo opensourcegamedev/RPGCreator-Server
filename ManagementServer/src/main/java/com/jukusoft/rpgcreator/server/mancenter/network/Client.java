@@ -1,5 +1,7 @@
 package com.jukusoft.rpgcreator.server.mancenter.network;
 
+import com.jukusoft.rpgcreator.server.mancenter.network.handler.impl.DistributedMessageHandler;
+
 /**
  * Created by Justin on 26.06.2017.
  */
@@ -31,6 +33,16 @@ public interface Client<T> {
      */
     public boolean isAuthentificated ();
 
+    /**
+    * get distributed message handler
+     *
+     * @return distributed message handler
+    */
+    public DistributedMessageHandler getDistributedMessageHandler ();
+
+    /**
+    * close connection and shutdown client
+    */
     public void shutdown ();
 
 }

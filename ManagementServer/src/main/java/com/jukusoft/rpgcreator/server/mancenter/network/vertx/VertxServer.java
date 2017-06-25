@@ -100,23 +100,6 @@ public class VertxServer implements Server {
             client1.shutdown();
         }));
 
-        //set close handler
-        socket.closeHandler(v -> {
-            //remove client from map
-            clientMap.remove(client.getClientID());
-
-            //TODO: call listener
-
-            //cleanUp client
-            client.shutdown();
-        });
-
-        //add exception handler
-        socket.exceptionHandler(e -> {
-            System.err.println("exception in client " + client.getClientID() + ": " + e.getLocalizedMessage());
-            e.printStackTrace();
-        });
-
         //put client to map
         this.clientMap.put(client.getClientID(), client);
     }

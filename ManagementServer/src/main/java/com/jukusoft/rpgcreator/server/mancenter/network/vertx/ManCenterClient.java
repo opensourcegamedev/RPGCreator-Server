@@ -2,6 +2,7 @@ package com.jukusoft.rpgcreator.server.mancenter.network.vertx;
 
 import com.jukusoft.rpgcreator.server.mancenter.network.Client;
 import com.jukusoft.rpgcreator.server.mancenter.network.handler.CloseHandler;
+import com.jukusoft.rpgcreator.server.mancenter.network.handler.impl.DistributedMessageHandler;
 import com.jukusoft.rpgcreator.server.mancenter.network.message.ManCenterMessage;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.net.NetSocket;
@@ -38,6 +39,8 @@ public class ManCenterClient implements Client<ManCenterMessage> {
 
     protected boolean connected = false;
 
+    protected DistributedMessageHandler distributedMessageHandler = null;
+
     public ManCenterClient (NetSocket socket, CloseHandler closeHandler) {
         this.socket = socket;
 
@@ -57,8 +60,19 @@ public class ManCenterClient implements Client<ManCenterMessage> {
         });
 
         this.socket.closeHandler(event -> {
+            this.socket = null;
+
             closeHandler.onClientClosed(this.clientID, this);
         });
+
+        //add exception handler
+        socket.exceptionHandler(e -> {
+            System.err.println("exception in client " + this.getClientID() + ": " + e.getLocalizedMessage());
+            e.printStackTrace();
+        });
+
+        //create new distributed message handler
+        this.distributedMessageHandler = new DistributedMessageHandler(this);
     }
 
     /**
@@ -89,7 +103,8 @@ public class ManCenterClient implements Client<ManCenterMessage> {
         //convert to chat message
         ManCenterMessage msg = ManCenterMessage.create(json);
 
-        //TODO: do something with message
+        //call message handler
+        this.distributedMessageHandler.messageReceived(this, msg);
     }
 
     @Override
@@ -128,8 +143,15 @@ public class ManCenterClient implements Client<ManCenterMessage> {
     }
 
     @Override
+    public DistributedMessageHandler getDistributedMessageHandler() {
+        return this.distributedMessageHandler;
+    }
+
+    @Override
     public void shutdown() {
-        this.socket.close();
+        if (this.socket != null) {
+            this.socket.close();
+        }
 
         //reset connected flag
         this.connected = false;
