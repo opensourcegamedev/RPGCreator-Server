@@ -1,4 +1,4 @@
-package com.jukusoft.rpgcreator.server.mancenter.network.handler.request;
+package com.jukusoft.rpgcreator.server.mancenter.request;
 
 import com.jukusoft.rpgcreator.server.mancenter.User;
 import com.jukusoft.rpgcreator.server.mancenter.network.AsyncResult;

@@ -5,7 +5,7 @@ import com.jukusoft.rpgcreator.server.mancenter.network.Client;
 import com.jukusoft.rpgcreator.server.mancenter.network.NetworkReceiveEvents;
 import com.jukusoft.rpgcreator.server.mancenter.network.handler.CloseHandler;
 import com.jukusoft.rpgcreator.server.mancenter.network.handler.impl.DistributedMessageHandler;
-import com.jukusoft.rpgcreator.server.mancenter.network.handler.request.LoginHandler;
+import com.jukusoft.rpgcreator.server.mancenter.request.LoginHandler;
 import com.jukusoft.rpgcreator.server.mancenter.network.message.ManCenterMessage;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.net.NetSocket;
