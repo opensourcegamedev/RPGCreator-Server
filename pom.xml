@@ -20,6 +20,9 @@
         <!-- vertx.io version -->
         <vertx.version>3.3.3</vertx.version>
 
+        <!-- mysql connector version -->
+        <mysql.connector.version>5.1.36</mysql.connector.version>
+
         <!-- JUnit version -->
         <junit.version>4.12</junit.version>
 
