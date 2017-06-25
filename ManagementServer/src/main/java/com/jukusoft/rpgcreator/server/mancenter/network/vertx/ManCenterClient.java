@@ -1,8 +1,11 @@
 package com.jukusoft.rpgcreator.server.mancenter.network.vertx;
 
+import com.jukusoft.rpgcreator.server.mancenter.User;
 import com.jukusoft.rpgcreator.server.mancenter.network.Client;
+import com.jukusoft.rpgcreator.server.mancenter.network.NetworkReceiveEvents;
 import com.jukusoft.rpgcreator.server.mancenter.network.handler.CloseHandler;
 import com.jukusoft.rpgcreator.server.mancenter.network.handler.impl.DistributedMessageHandler;
+import com.jukusoft.rpgcreator.server.mancenter.network.handler.request.LoginHandler;
 import com.jukusoft.rpgcreator.server.mancenter.network.message.ManCenterMessage;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.net.NetSocket;
@@ -41,6 +44,8 @@ public class ManCenterClient implements Client<ManCenterMessage> {
 
     protected DistributedMessageHandler distributedMessageHandler = null;
 
+    protected User user = null;
+
     public ManCenterClient (NetSocket socket, CloseHandler closeHandler) {
         this.socket = socket;
 
@@ -73,6 +78,29 @@ public class ManCenterClient implements Client<ManCenterMessage> {
 
         //create new distributed message handler
         this.distributedMessageHandler = new DistributedMessageHandler(this);
+
+        //add login handler
+        this.distributedMessageHandler.addHandler(NetworkReceiveEvents.LOGIN, new LoginHandler(res -> {
+            if (!res.succeeded()) {
+                System.out.println("login failed for client " + getClientID() + ": " + res.cause().getLocalizedMessage());
+            } else {
+                //login successful
+
+                //get user
+                this.user = res.result();
+
+                //check, if user has permission to use ManCenter
+                if (!user.hasPermissionForManCenter()) {
+                    //close connection
+                    this.shutdown();
+
+                    return;
+                }
+
+                //set authentificated flag
+                this.isAuthentificated.set(true);
+            }
+        }));
     }
 
     /**
