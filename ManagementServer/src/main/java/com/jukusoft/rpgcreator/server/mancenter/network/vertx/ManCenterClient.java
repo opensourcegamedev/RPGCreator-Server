@@ -104,6 +104,8 @@ public class ManCenterClient implements Client<ManCenterMessage> {
 
                 //set authentificated flag
                 this.isAuthentificated.set(true);
+
+                //TODO: call listeners that user is online
             }
         }));
     }
