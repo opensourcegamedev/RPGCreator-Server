@@ -59,6 +59,8 @@ public interface MySQLServer {
     */
     public boolean checkTable (String tableName);
 
+    public String getLastCheckResult ();
+
     /**
     * check, if an table belongs to RPG Creator Editor
      *

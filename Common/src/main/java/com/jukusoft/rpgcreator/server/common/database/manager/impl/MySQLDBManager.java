@@ -2,7 +2,10 @@ package com.jukusoft.rpgcreator.server.common.database.manager.impl;
 
 import com.jukusoft.rpgcreator.server.common.database.manager.DBManager;
 import com.jukusoft.rpgcreator.server.common.database.mysql.MySQLServer;
+import com.jukusoft.rpgcreator.server.common.utils.FileUtils;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -43,7 +46,41 @@ public class MySQLDBManager implements DBManager {
 
     @Override
     public boolean check() {
-        return false;
+        //list all tables in database
+        List<String> tables = this.server.listTables();
+
+        //first check all tables with mysql CHECK TABLES, if they are corrupt
+        for (String tableName : tables) {
+            if (!this.server.checkTable(tableName)) {
+                System.err.println("mysql check of table '" + tableName + "' failed! MySQL message: " + this.server.getLastCheckResult());
+                return false;
+            }
+        }
+
+        //check, if all required tables exists
+        List<String> lines = null;
+        try {
+            lines = FileUtils.readLines("./data/mysql/versions/ver_" + getCurrentDBVersion() + "/requiredTables.lst", StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        //iterate through all required tables
+        for (String tableName : lines) {
+            System.out.println("check, if required table exists: " + tableName);
+
+            //add prefix to table name
+            tableName = this.server.getPrefix() + tableName;
+
+            //check, if table is in list
+            if (!tables.contains(tableName)) {
+                System.err.println("Could not found table '" + tableName + "' in database.");
+                return false;
+            }
+        }
+
+        return true;
     }
 
     @Override

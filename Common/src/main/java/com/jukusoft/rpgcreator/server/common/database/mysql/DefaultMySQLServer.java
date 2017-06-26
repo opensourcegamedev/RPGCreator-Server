@@ -29,6 +29,8 @@ public class DefaultMySQLServer implements MySQLServer {
     */
     protected Map<String,PreparedStatement> preparedStatementMap = new ConcurrentHashMap<>();
 
+    protected String lastCheckResult = "";
+
     public DefaultMySQLServer () {
         //try to load the mysql driver
         try {
@@ -224,12 +226,18 @@ public class DefaultMySQLServer implements MySQLServer {
             }
 
             String msg = rs.getString("Msg_text");
+            this.lastCheckResult = msg;
 
             return msg.contains("OK");
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
+    }
+
+    @Override
+    public String getLastCheckResult() {
+        return this.lastCheckResult;
     }
 
     @Override

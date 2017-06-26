@@ -64,6 +64,20 @@ public class ServerMain {
 
         System.out.println("current RPG Creator Editor database version: " + dbManager.getCurrentDBVersion());
 
+        //check, if all required tables exists
+        if (dbManager.check()) {
+            System.out.println("all required database tables exists.");
+        } else {
+            System.err.println("Not all required tables exists in database, try to repair database now.");
+
+            if (dbManager.repair()) {
+                System.err.println("database structure repaired successfully. Proceed now.");
+            } else {
+                System.err.println("Couldnt repair database structure, shutdown ManCenter server now. Maybe you can find more information in log files.");
+                System.exit(1);
+            }
+        }
+
         //optimize database tables
         dbManager.optimizeAllTables();
 
