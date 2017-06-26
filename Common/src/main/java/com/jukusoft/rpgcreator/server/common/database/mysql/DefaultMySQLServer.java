@@ -167,6 +167,20 @@ public class DefaultMySQLServer implements MySQLServer {
     }
 
     @Override
+    public void optimize(String tableName) {
+        try {
+            PreparedStatement stmt = this.prepare("OPTIMIZE TABLE ?; ");
+            stmt.setString(1, tableName);
+
+            //exeucte query
+            boolean success = stmt.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.err.println("Couldnt optimize table: " + tableName + ", SQLException: " + e.getLocalizedMessage());
+        }
+    }
+
+    @Override
     public String getPrefix() {
         return this.prefix;
     }

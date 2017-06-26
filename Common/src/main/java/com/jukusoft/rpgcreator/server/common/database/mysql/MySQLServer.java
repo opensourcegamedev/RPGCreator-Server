@@ -45,6 +45,13 @@ public interface MySQLServer {
     */
     public boolean isPluginTable (String tableName);
 
+    /**
+    * optimize table
+     *
+     * @param tableName table name
+    */
+    public void optimize (String tableName);
+
     public String getPrefix ();
 
     public void disconnect ();
