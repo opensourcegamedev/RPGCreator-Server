@@ -250,8 +250,8 @@ public class DefaultMySQLServer implements MySQLServer {
         }
 
         try {
-            PreparedStatement stmt = this.prepare("OPTIMIZE TABLE ?; ");
-            stmt.setString(1, tableName);
+            PreparedStatement stmt = this.prepare("OPTIMIZE TABLE `" + tableName + "`; ");
+            //stmt.setString(1, tableName);
 
             //exeucte query
             boolean success = stmt.execute();
