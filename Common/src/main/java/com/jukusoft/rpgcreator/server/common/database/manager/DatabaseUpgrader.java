@@ -8,7 +8,7 @@ public interface DatabaseUpgrader {
     /**
     * create full database structure
     */
-    public void onCreate ();
+    public boolean onCreate ();
 
     /**
     * upgrade database

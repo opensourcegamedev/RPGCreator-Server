@@ -1,6 +1,7 @@
 package com.jukusoft.rpgcreator.server.common.database.manager.impl;
 
 import com.jukusoft.rpgcreator.server.common.database.manager.DBManager;
+import com.jukusoft.rpgcreator.server.common.database.manager.DatabaseUpgrader;
 import com.jukusoft.rpgcreator.server.common.database.mysql.MySQLServer;
 import com.jukusoft.rpgcreator.server.common.utils.FileUtils;
 
@@ -29,14 +30,14 @@ public class MySQLDBManager implements DBManager {
         try {
             server.execute("CREATE TABLE IF NOT EXISTS `" + this.server.getPrefix() + "version` (\n" +
                     "  `name` varchar(255) NOT NULL,\n" +
-                    "  `build_number` int(10) NOT NULL DEFAULT '1',\n" +
+                    "  `build_number` int(10) NOT NULL DEFAULT '0',\n" +
                     "  PRIMARY KEY (`name`)\n" +
                     ") ENGINE=InnoDB DEFAULT CHARSET=latin1;");
 
             server.execute("INSERT INTO `" + this.server.getPrefix() + "version` (" +
                     "`name`, `build_number`" +
                     ") VALUES (\n" +
-                    "'DATABASE_VERSION', 1" +
+                    "'DATABASE_VERSION', 0" +
                     ") ON DUPLICATE KEY UPDATE `name` = 'DATABASE_VERSION';");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -117,6 +118,8 @@ public class MySQLDBManager implements DBManager {
 
     @Override
     public boolean repair() {
+        System.err.println("Repair database isnt supported yet.");
+
         return false;
     }
 
@@ -135,12 +138,64 @@ public class MySQLDBManager implements DBManager {
 
     @Override
     public boolean isUpgradeRequired() {
-        return false;
+        return this.getNewestVersion() > this.getCurrentDBVersion();
     }
 
     @Override
-    public boolean upgrade() {
-        return false;
+    public boolean upgrade(DatabaseUpgrader upgrader) throws SQLException {
+        int oldVersion = getCurrentDBVersion();
+        int newVersion = getNewestVersion();
+
+        //check, if table structure has to be created
+        if (getCurrentDBVersion() == 0) {
+            //we have to create table structure
+
+            System.out.println("try to create table structure.");
+
+            //start new mysql transaction
+            server.startTransaction();
+
+            //we have to create database structure
+            if (!upgrader.onCreate()) {
+                //rollback changes
+                server.rollback();
+
+                return false;
+            }
+
+            //commit changes
+            server.commit();
+
+            System.out.println("table structure created successfully.");
+        } else {
+            //we have to upgrade table structure
+
+            System.out.println("try to upgrade table structure from version " + oldVersion + " to new version " + newVersion + ".");
+
+            //start new mysql transaction
+            server.startTransaction();
+
+            if (!upgrader.onUpgrade(oldVersion, newVersion)) {
+                //rollback changes
+                server.rollback();
+
+                return false;
+            }
+
+            //commit changes
+            server.commit();
+
+            System.out.println("table structure upgraded successfully.");
+        }
+
+        //update version in database
+        server.execute("INSERT INTO `" + this.server.getPrefix() + "version` (" +
+                "`name`, `build_number`\n" +
+                ") VALUES (\n" +
+                "'DATABASE_VERSION', " + newVersion + "\n" +
+                ") ON DUPLICATE KEY UPDATE `build_number` = '" + newVersion + "';");
+
+        return true;
     }
 
 }

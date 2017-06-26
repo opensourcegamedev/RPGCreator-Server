@@ -1,5 +1,7 @@
 package com.jukusoft.rpgcreator.server.common.database.manager;
 
+import java.sql.SQLException;
+
 /**
  * Created by Justin on 26.06.2017.
  */
@@ -53,6 +55,6 @@ public interface DBManager {
      *
      * @return true, if database upgrade was successful
     */
-    public boolean upgrade ();
+    public boolean upgrade (DatabaseUpgrader upgrader) throws SQLException;
 
 }
