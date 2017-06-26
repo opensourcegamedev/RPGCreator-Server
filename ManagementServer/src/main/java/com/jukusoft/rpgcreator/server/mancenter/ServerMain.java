@@ -105,7 +105,7 @@ public class ServerMain {
 
         System.out.println("#### END of DB Manager ####\n");
 
-        System.out.println("try to start management server on port " + port + "now.");
+        System.out.println("try to start management server on port " + port + " now.");
 
         //create new ManCenter server and set port
         ManCenterServer server = new ManCenterServer();
