@@ -211,6 +211,28 @@ public class DefaultMySQLServer implements MySQLServer {
     }
 
     @Override
+    public boolean checkTable(String tableName) {
+        PreparedStatement stmt = prepare("CHECK TABLE ?; ");
+        try {
+            stmt.setString(1, tableName);
+
+            //execute sql query
+            ResultSet rs = stmt.executeQuery();
+
+            if (!rs.next()) {
+                throw new IllegalStateException("mysql server doesnt returns any row about CHECK TABLE query.");
+            }
+
+            String msg = rs.getString("Msg_text");
+
+            return msg.contains("OK");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
     public boolean belongsToRCE(String tableName) {
         return tableName.startsWith(this.prefix);
     }

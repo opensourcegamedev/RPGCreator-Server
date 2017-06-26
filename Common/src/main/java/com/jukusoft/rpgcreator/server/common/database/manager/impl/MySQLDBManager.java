@@ -5,6 +5,7 @@ import com.jukusoft.rpgcreator.server.common.database.mysql.MySQLServer;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * Created by Justin on 26.06.2017.
@@ -69,7 +70,11 @@ public class MySQLDBManager implements DBManager {
     @Override
     public void optimizeAllTables() {
         //list all tables first
+        List<String> tables = this.server.listTables();
 
+        for (String tableName : tables) {
+            //
+        }
     }
 
     @Override

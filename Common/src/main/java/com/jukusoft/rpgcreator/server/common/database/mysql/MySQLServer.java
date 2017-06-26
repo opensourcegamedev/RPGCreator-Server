@@ -49,6 +49,17 @@ public interface MySQLServer {
     public List<String> listTables (boolean fullName);
 
     /**
+    * check table
+     *
+     * SQL: CHECK TABLE `table name`
+     *
+     * @param tableName table name
+     *
+     * @return true, if table is ok
+    */
+    public boolean checkTable (String tableName);
+
+    /**
     * check, if an table belongs to RPG Creator Editor
      *
      * @param tableName table name
