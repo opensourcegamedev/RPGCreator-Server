@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 /**
  * Created by Justin on 26.06.2017.
  */
-public class User {
+public class User implements IUser {
 
     protected int userID = 0;
     protected String username = "";
@@ -43,4 +43,18 @@ public class User {
         return user;
     }
 
+    @Override
+    public long getUserID() {
+        return this.userID;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.username;
+    }
+
+    @Override
+    public boolean hasPermissionForManCenter() {
+        return false;
+    }
 }

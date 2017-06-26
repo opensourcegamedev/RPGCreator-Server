@@ -1,11 +1,13 @@
 package com.jukusoft.rpgcreator.server.mancenter;
 
 import com.jukusoft.rpgcreator.server.common.Engine;
+import com.jukusoft.rpgcreator.server.common.api.ServerApi;
 import com.jukusoft.rpgcreator.server.common.database.manager.DBManager;
 import com.jukusoft.rpgcreator.server.common.database.config.MySQLConfig;
 import com.jukusoft.rpgcreator.server.common.database.manager.impl.MySQLDBManager;
 import com.jukusoft.rpgcreator.server.common.database.mysql.DefaultMySQLServer;
 import com.jukusoft.rpgcreator.server.common.database.mysql.MySQLServer;
+import com.jukusoft.rpgcreator.server.mancenter.api.ManCenterApi;
 import com.jukusoft.rpgcreator.server.mancenter.database.DBUpgrader;
 import com.jukusoft.rpgcreator.server.mancenter.network.impl.ManCenterServer;
 
@@ -107,8 +109,11 @@ public class ServerMain {
 
         System.out.println("try to start management server on port " + port + " now.");
 
+        //create server api
+        ServerApi serverApi = new ManCenterApi(mySQLServer);
+
         //create new ManCenter server and set port
-        ManCenterServer server = new ManCenterServer();
+        ManCenterServer server = new ManCenterServer(serverApi);
         server.setPort(port);
 
         //start server

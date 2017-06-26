@@ -1,5 +1,6 @@
 package com.jukusoft.rpgcreator.server.mancenter.network.vertx;
 
+import com.jukusoft.rpgcreator.server.common.api.ServerApi;
 import com.jukusoft.rpgcreator.server.mancenter.Server;
 import com.jukusoft.rpgcreator.server.mancenter.network.Client;
 import com.jukusoft.rpgcreator.server.mancenter.network.message.ManCenterMessage;
@@ -45,7 +46,11 @@ public abstract class VertxServer implements Server {
      */
     protected Map<Long,Client> clientMap = new ConcurrentHashMap<>();
 
-    public VertxServer () {
+    protected ServerApi serverApi = null;
+
+    public VertxServer (ServerApi serverApi) {
+        this.serverApi = serverApi;
+
         //set number of threads
         this.vertxOptions.setEventLoopPoolSize(2);
         this.vertxOptions.setWorkerPoolSize(2);
@@ -90,7 +95,7 @@ public abstract class VertxServer implements Server {
      */
     protected void addClient (NetSocket socket) {
         //create new client instance
-        Client client = new ManCenterClient(socket, ((clientID, client1) -> {
+        Client client = new ManCenterClient(this.serverApi, socket, ((clientID, client1) -> {
             //remove client from map
             clientMap.remove(client1.getClientID());
 

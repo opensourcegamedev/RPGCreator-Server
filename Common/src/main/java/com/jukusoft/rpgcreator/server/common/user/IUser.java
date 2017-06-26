@@ -1,9 +1,9 @@
-package com.jukusoft.rpgcreator.server.mancenter;
+package com.jukusoft.rpgcreator.server.common.user;
 
 /**
  * Created by Justin on 26.06.2017.
  */
-public interface User {
+public interface IUser {
 
     public long getUserID ();
 

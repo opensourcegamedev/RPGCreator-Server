@@ -1,6 +1,7 @@
 package com.jukusoft.rpgcreator.server.mancenter.events.request;
 
-import com.jukusoft.rpgcreator.server.mancenter.User;
+import com.jukusoft.rpgcreator.server.common.user.User;
+import com.jukusoft.rpgcreator.server.common.user.UserManager;
 import com.jukusoft.rpgcreator.server.mancenter.network.AsyncResult;
 import com.jukusoft.rpgcreator.server.mancenter.network.Client;
 import com.jukusoft.rpgcreator.server.mancenter.network.Handler;
@@ -18,7 +19,13 @@ public class LoginHandler implements EventHandler<ManCenterMessage> {
     */
     protected Handler<AsyncResult<User>> handler = null;
 
-    public LoginHandler (Handler<AsyncResult<User>> handler) {
+    /**
+    * user manager instance
+    */
+    protected UserManager userManager = null;
+
+    public LoginHandler (UserManager userManager, Handler<AsyncResult<User>> handler) {
+        this.userManager = userManager;
         this.handler = handler;
     }
 
@@ -34,6 +41,9 @@ public class LoginHandler implements EventHandler<ManCenterMessage> {
         String password = json.getString("password");
 
         System.out.println("try to login user '" + username + "'.");
+
+        //find user
+        User IUser = this.userManager.findUserByName(username);
 
         //TODO: check login data
 

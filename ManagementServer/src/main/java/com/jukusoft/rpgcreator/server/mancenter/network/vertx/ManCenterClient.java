@@ -1,6 +1,7 @@
 package com.jukusoft.rpgcreator.server.mancenter.network.vertx;
 
-import com.jukusoft.rpgcreator.server.mancenter.User;
+import com.jukusoft.rpgcreator.server.common.api.ServerApi;
+import com.jukusoft.rpgcreator.server.common.user.User;
 import com.jukusoft.rpgcreator.server.mancenter.network.Client;
 import com.jukusoft.rpgcreator.server.mancenter.events.NetworkReceiveEvents;
 import com.jukusoft.rpgcreator.server.mancenter.network.handler.CloseHandler;
@@ -46,7 +47,7 @@ public class ManCenterClient implements Client<ManCenterMessage> {
 
     protected User user = null;
 
-    public ManCenterClient (NetSocket socket, CloseHandler closeHandler) {
+    public ManCenterClient (ServerApi serverApi, NetSocket socket, CloseHandler closeHandler) {
         this.socket = socket;
 
         //generate new client id
@@ -85,7 +86,7 @@ public class ManCenterClient implements Client<ManCenterMessage> {
         this.distributedMessageHandler = new DistributedMessageHandler(this);
 
         //add login handler
-        this.distributedMessageHandler.addHandler(NetworkReceiveEvents.LOGIN, new LoginHandler(res -> {
+        this.distributedMessageHandler.addHandler(NetworkReceiveEvents.LOGIN, new LoginHandler(serverApi.getUserManager(), res -> {
             if (!res.succeeded()) {
                 System.out.println("login failed for client " + getClientID() + ": " + res.cause().getLocalizedMessage());
             } else {
