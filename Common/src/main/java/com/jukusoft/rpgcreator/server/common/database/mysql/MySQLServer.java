@@ -18,6 +18,8 @@ public interface MySQLServer {
 
     public ResultSet query(String sqlstatement) throws SQLException;
 
+    public boolean execute (String sql) throws SQLException;
+
     public PreparedStatement prepare (String query) throws SQLException;
 
     /**

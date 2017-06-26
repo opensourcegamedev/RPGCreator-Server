@@ -100,6 +100,11 @@ public class DefaultMySQLServer implements MySQLServer {
     }
 
     @Override
+    public boolean execute(String sql) throws SQLException {
+        return this.conn.createStatement().execute(sql);
+    }
+
+    @Override
     public PreparedStatement prepare(String query) {
         PreparedStatement stmt = null;//this.preparedStatementMap.get(query);
 

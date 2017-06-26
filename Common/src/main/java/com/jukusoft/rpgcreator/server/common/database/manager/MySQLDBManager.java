@@ -18,19 +18,21 @@ public class MySQLDBManager implements DBManager {
 
     @Override
     public void init() {
+        System.out.println("check versions table.\n");
+
         //create versions table, if neccessary
         try {
-            server.query("CREATE TABLE IF NOT EXISTS `" + this.server.getPrefix() + "version` (\n" +
+            server.execute("CREATE TABLE IF NOT EXISTS `" + this.server.getPrefix() + "version` (\n" +
                     "  `name` varchar(255) NOT NULL,\n" +
                     "  `build_number` int(10) NOT NULL DEFAULT '1',\n" +
                     "  PRIMARY KEY (`name`)\n" +
                     ") ENGINE=InnoDB DEFAULT CHARSET=latin1;");
 
-            server.query("INSERT INTO `" + this.server.getPrefix() + "version` (" +
+            server.execute("INSERT INTO `" + this.server.getPrefix() + "version` (" +
                     "`name`, `build_number`" +
                     ") VALUES (\n" +
                     "'DATABASE_VERSION', 1" +
-                    ") ON DUPLICATE KEY IGNORE;");
+                    ") ON DUPLICATE KEY UPDATE `name` = 'DATABASE_VERSION';");
         } catch (SQLException e) {
             e.printStackTrace();
             System.exit(1);
