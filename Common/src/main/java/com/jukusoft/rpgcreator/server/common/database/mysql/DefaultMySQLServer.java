@@ -214,7 +214,7 @@ public class DefaultMySQLServer implements MySQLServer {
 
     @Override
     public boolean checkTable(String tableName) {
-        PreparedStatement stmt = prepare("CHECK TABLE ?; ");
+        PreparedStatement stmt = prepare("CHECK TABLE `" + tableName + "`; ");
         try {
             stmt.setString(1, tableName);
 
