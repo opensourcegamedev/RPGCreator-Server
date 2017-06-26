@@ -1,5 +1,7 @@
 package com.jukusoft.rpgcreator.server.common.database.mysql;
 
+import com.jukusoft.rpgcreator.server.common.database.config.MySQLConfig;
+
 import java.sql.*;
 import java.util.Map;
 import java.util.Properties;
@@ -40,6 +42,25 @@ public class DefaultMySQLServer implements MySQLServer {
         this.prefix = prefix;
 
         //create the properties list with user, password and autoreconnect
+        Properties props = this.createConnectionProperties(user, password);
+
+        //try to connect to the database
+        this.conn = DriverManager.getConnection("jdbc:mysql://" + ip + "/" + database, props);
+    }
+
+    @Override
+    public void connect(MySQLConfig config) throws SQLException {
+        this.prefix = config.getPrefix();
+
+        //create the properties list with user, password and autoreconnect
+        Properties props = this.createConnectionProperties(config.getUsername(), config.getPassword());
+
+        //try to connect to the database
+        this.conn = DriverManager.getConnection(config.getDBUrl(), props);
+    }
+
+    private Properties createConnectionProperties (String user, String password) {
+        //create the properties list with user, password and autoreconnect
         Properties props = new Properties();
         props.put("user", user);
         props.put("password", password);
@@ -51,8 +72,7 @@ public class DefaultMySQLServer implements MySQLServer {
         props.put("prepStmtCacheSize", "250");
         props.put("prepStmtCacheSqlLimit", 2048);
 
-        //try to connect to the database
-        this.conn = DriverManager.getConnection("jdbc:mysql://" + ip + "/" + database, props);
+        return props;
     }
 
     @Override

@@ -1,8 +1,10 @@
 package com.jukusoft.rpgcreator.server.mancenter;
 
-import com.jukusoft.rpgcreator.server.common.vertx.VertxIOServerFactory;
+import com.jukusoft.rpgcreator.server.common.database.config.MySQLConfig;
 import com.jukusoft.rpgcreator.server.mancenter.network.impl.ManCenterServer;
-import io.vertx.core.net.NetServer;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Created by Justin on 31.05.2017.
@@ -20,7 +22,21 @@ public class ServerMain {
         //welcome message
         System.out.println("################################################################");
         System.out.println("# RPGCreator Management Server - Version " + RPGCREATOR_SERVER_VERSION + "");
-        System.out.println("################################################################\n");
+        System.out.println("################################################################\n\n");
+
+        System.out.println("load mysql configuration: ./data/config/mysql.cfg\n");
+
+        MySQLConfig mySQLConfig = null;
+
+        try {
+            //read database configuration
+            mySQLConfig = MySQLConfig.readFromFile(new File("./data/config/mysql.cfg"));
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+
+        //
 
         System.out.println("try to start management server on port " + port + "now.");
 
