@@ -249,6 +249,21 @@ public class DefaultMySQLServer implements MySQLServer {
     }
 
     @Override
+    public void startTransaction() throws SQLException {
+        this.conn.setAutoCommit(false);
+    }
+
+    @Override
+    public void commit() throws SQLException {
+        this.conn.commit();
+    }
+
+    @Override
+    public void rollback() throws SQLException {
+        this.conn.rollback();
+    }
+
+    @Override
     public void optimize(String tableName) {
         //add prefix, if neccessary
         if (!tableName.startsWith(getPrefix())) {

@@ -81,7 +81,9 @@ public class ServerMain {
         System.out.println("newest available database version: " + dbManager.getNewestVersion());
 
         if (dbManager.isUpgradeRequired()) {
-            //
+            System.out.println("database upgrade is required, try to upgrade database now...");
+        } else {
+            System.out.println("database is up to date.");
         }
 
         //optimize database tables

@@ -80,6 +80,21 @@ public interface MySQLServer {
     public boolean isPluginTable (String tableName);
 
     /**
+    * start an new transaction
+    */
+    public void startTransaction () throws SQLException;
+
+    /**
+    * commit and end transaction (transaction was successful)
+    */
+    public void commit () throws SQLException;
+
+    /**
+    * rollback transaction, if operation failed
+    */
+    public void rollback () throws SQLException;
+
+    /**
     * optimize table
      *
      * @param tableName table name
