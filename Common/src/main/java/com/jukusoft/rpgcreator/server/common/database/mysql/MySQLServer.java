@@ -24,11 +24,15 @@ public interface MySQLServer {
 
     /**
      * get first row of result set
+     *
+     * @return row or null, if no row was returned
      */
     public ResultSet getRow (String sql) throws SQLException;
 
     /**
      * get first row of result set
+     *
+     * @return row or null, if no row was returned
      */
     public ResultSet getRow (String sql, String... params) throws SQLException;
 

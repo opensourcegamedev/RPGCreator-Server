@@ -135,7 +135,7 @@ public class DefaultMySQLServer implements MySQLServer {
             return rs;
         }
 
-        throw new IllegalStateException("query doesnt returns any row.");
+        return null;
     }
 
     @Override
@@ -157,7 +157,7 @@ public class DefaultMySQLServer implements MySQLServer {
             return rs;
         }
 
-        throw new IllegalStateException("query doesnt returns any row.");
+        return null;
     }
 
     @Override
