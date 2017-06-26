@@ -53,8 +53,8 @@ public class ServerMain {
             System.exit(1);
         }
 
-        System.out.println("connection to mysql server successful.");
-        System.out.println("\n#### DB Manager ####\n");
+        System.out.println("connection to mysql server successful.\n");
+        System.out.println("#### DB Manager ####");
         System.out.println("check database now.");
 
         //create new database manager and initialize database manager
@@ -66,7 +66,7 @@ public class ServerMain {
         //optimize database tables
         dbManager.optimizeAllTables();
 
-        System.out.println("\n#### END of DB Manager ####\n");
+        System.out.println("#### END of DB Manager ####\n");
 
         System.out.println("try to start management server on port " + port + "now.");
 

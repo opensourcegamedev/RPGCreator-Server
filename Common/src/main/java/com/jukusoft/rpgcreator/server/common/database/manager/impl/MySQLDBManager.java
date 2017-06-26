@@ -20,7 +20,7 @@ public class MySQLDBManager implements DBManager {
 
     @Override
     public void init() {
-        System.out.println("check versions table.\n");
+        System.out.println("check versions table.");
 
         //create versions table, if neccessary
         try {
