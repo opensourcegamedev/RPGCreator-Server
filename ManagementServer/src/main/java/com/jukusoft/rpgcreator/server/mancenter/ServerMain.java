@@ -1,5 +1,6 @@
 package com.jukusoft.rpgcreator.server.mancenter;
 
+import com.jukusoft.rpgcreator.server.common.Engine;
 import com.jukusoft.rpgcreator.server.common.database.manager.DBManager;
 import com.jukusoft.rpgcreator.server.common.database.config.MySQLConfig;
 import com.jukusoft.rpgcreator.server.common.database.manager.impl.MySQLDBManager;
@@ -16,7 +17,7 @@ import java.sql.SQLException;
  */
 public class ServerMain {
 
-    public static final String RPGCREATOR_SERVER_VERSION = "0.0.1 pre-alpha";
+    public static final String RPGCREATOR_SERVER_VERSION = Engine.getVersionString();//"0.0.1 pre-alpha";
 
     public static void main (String[] args) {
         int port = 1234;
@@ -27,7 +28,7 @@ public class ServerMain {
         //welcome message
         System.out.println("################################################################");
         System.out.println("# RPGCreator Management Server - Version " + RPGCREATOR_SERVER_VERSION + "");
-        System.out.println("################################################################\n\n");
+        System.out.println("################################################################\n");
 
         System.out.println("load mysql configuration: ./data/config/mysql.cfg\n");
 
