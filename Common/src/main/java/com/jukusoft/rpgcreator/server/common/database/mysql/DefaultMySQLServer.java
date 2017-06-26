@@ -139,8 +139,13 @@ public class DefaultMySQLServer implements MySQLServer {
                 //get first coloum, because their is table name stored, index here begins with 1, not with 0
                 String tableName = rs.getString(1);
 
-                //add table to list
-                list.add(tableName);
+                //check, if table belongs to RPG Creator Editor
+                if (this.belongsToRCE(tableName)) {
+                    //add table to list
+                    list.add(tableName);
+                } else {
+                    System.err.println("[DEBUG] unknown database table: " + tableName);
+                }
             }
 
             //close result set
