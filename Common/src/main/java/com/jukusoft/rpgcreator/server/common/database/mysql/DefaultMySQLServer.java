@@ -216,8 +216,6 @@ public class DefaultMySQLServer implements MySQLServer {
     public boolean checkTable(String tableName) {
         PreparedStatement stmt = prepare("CHECK TABLE `" + tableName + "`; ");
         try {
-            stmt.setString(1, tableName);
-
             //execute sql query
             ResultSet rs = stmt.executeQuery();
 
