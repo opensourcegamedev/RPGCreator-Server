@@ -51,6 +51,10 @@ public class ServerMain {
             System.exit(1);
         }
 
+        System.out.println("connection to mysql server successful.");
+
+        mySQLServer.listTables();
+
         System.out.println("try to start management server on port " + port + "now.");
 
         //create new ManCenter server and set port

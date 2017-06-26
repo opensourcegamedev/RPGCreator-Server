@@ -3,6 +3,8 @@ package com.jukusoft.rpgcreator.server.common.database.mysql;
 import com.jukusoft.rpgcreator.server.common.database.config.MySQLConfig;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
@@ -55,8 +57,19 @@ public class DefaultMySQLServer implements MySQLServer {
         //create the properties list with user, password and autoreconnect
         Properties props = this.createConnectionProperties(config.getUsername(), config.getPassword());
 
+        if (props == null) {
+            throw new NullPointerException("props is null.");
+        }
+
+        String dbUrl = config.getDBUrl();
+        System.out.println("[DEBUG] DB Url: " + dbUrl);
+
         //try to connect to the database
-        this.conn = DriverManager.getConnection(config.getDBUrl(), props);
+        this.conn = DriverManager.getConnection(dbUrl, props);
+
+        if (this.conn == null) {
+            throw new NullPointerException("conn is null.");
+        }
     }
 
     private Properties createConnectionProperties (String user, String password) {
@@ -67,10 +80,10 @@ public class DefaultMySQLServer implements MySQLServer {
         props.put("autoReconnect", "true");
 
         //cache prepared statements
-        props.put("cachePrepStmts", "true");
-        props.put("useServerPrepStmts", "true");
-        props.put("prepStmtCacheSize", "250");
-        props.put("prepStmtCacheSqlLimit", 2048);
+        //props.put("cachePrepStmts", "true");
+        //props.put("useServerPrepStmts", "true");
+        //props.put("prepStmtCacheSize", "250");
+        //props.put("prepStmtCacheSqlLimit", 2048);
 
         return props;
     }
@@ -87,17 +100,60 @@ public class DefaultMySQLServer implements MySQLServer {
     }
 
     @Override
-    public PreparedStatement prepare(String query) throws SQLException {
-        PreparedStatement stmt = this.preparedStatementMap.get(query);
+    public PreparedStatement prepare(String query) {
+        PreparedStatement stmt = null;//this.preparedStatementMap.get(query);
 
         if (stmt == null) {
-            stmt = this.conn.prepareStatement(query);
+            try {
+                stmt = this.conn.prepareStatement(query);
+            } catch (SQLException e) {
+                e.printStackTrace();
+
+                throw new IllegalStateException("SQLException: " + e.getLocalizedMessage(), e);
+            }
 
             //cache prepared statement
             this.preparedStatementMap.put(query, stmt);
         }
 
         return stmt;
+    }
+
+    @Override
+    public List<String> listTables() {
+        String sql = "SHOW TABLES; ";
+
+        //prepare statement
+        PreparedStatement stmt = this.prepare(sql);
+
+        ResultSet rs = null;
+
+        try {
+            rs = stmt.executeQuery();
+
+            //create new list
+            List<String> list = new ArrayList<>();
+
+            //iterate through all rows
+            while (rs.next()) {
+                //get first coloum, because their is table name stored, index here begins with 1, not with 0
+                String tableName = rs.getString(1);
+
+                //add table to list
+                list.add(tableName);
+            }
+
+            //close result set
+            rs.close();
+
+            //close statement
+            stmt.close();
+
+            return list;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new IllegalStateException("Cannot list tables, caused by SQLException: " + e.getLocalizedMessage());
+        }
     }
 
     @Override
