@@ -1,6 +1,6 @@
-package com.jukusoft.rpgcreator.server.common.database.manager;
+package com.jukusoft.rpgcreator.server.common.database.manager.impl;
 
-import com.jukusoft.rpgcreator.server.common.database.DBManager;
+import com.jukusoft.rpgcreator.server.common.database.manager.DBManager;
 import com.jukusoft.rpgcreator.server.common.database.mysql.MySQLServer;
 
 import java.sql.ResultSet;

@@ -1,4 +1,4 @@
-package com.jukusoft.rpgcreator.server.common.database;
+package com.jukusoft.rpgcreator.server.common.database.manager;
 
 /**
  * Created by Justin on 26.06.2017.
