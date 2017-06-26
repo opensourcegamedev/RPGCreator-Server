@@ -55,7 +55,7 @@ public class ServerMain {
 
         System.out.println("connection to mysql server successful.\n");
         System.out.println("#### DB Manager ####");
-        System.out.println("check database now.");
+        System.out.println("DB Manager checks database now.");
 
         //create new database manager and initialize database manager
         DBManager dbManager = new MySQLDBManager(mySQLServer);
