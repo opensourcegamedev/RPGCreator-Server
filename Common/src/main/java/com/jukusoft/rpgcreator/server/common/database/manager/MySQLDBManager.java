@@ -50,13 +50,15 @@ public class MySQLDBManager implements DBManager {
         ResultSet rs = null;
 
         try {
-            rs = this.server.query("SELECT * FROM `" + this.server.getPrefix() + "version` WHERE `name` = 'DATABASE_VERSION'; ");
+            rs = this.server.getRow("SELECT * FROM `" + this.server.getPrefix() + "version` WHERE `name` = 'DATABASE_VERSION'; ");
+
+            return rs.getInt("build_number");
         } catch (SQLException e) {
             e.printStackTrace();
             System.exit(1);
         }
 
-        return 0;
+        throw new IllegalStateException("cannot get current database version.");
     }
 
     @Override
