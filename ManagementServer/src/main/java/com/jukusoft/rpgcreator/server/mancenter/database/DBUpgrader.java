@@ -9,7 +9,7 @@ public class DBUpgrader implements DatabaseUpgrader {
 
     @Override
     public boolean onCreate() {
-        return false;
+        return true;
     }
 
     @Override
