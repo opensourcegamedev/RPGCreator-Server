@@ -1,6 +1,8 @@
 package com.jukusoft.rpgcreator.server.mancenter;
 
+import com.jukusoft.rpgcreator.server.common.database.DBManager;
 import com.jukusoft.rpgcreator.server.common.database.config.MySQLConfig;
+import com.jukusoft.rpgcreator.server.common.database.manager.MySQLDBManager;
 import com.jukusoft.rpgcreator.server.common.database.mysql.DefaultMySQLServer;
 import com.jukusoft.rpgcreator.server.common.database.mysql.MySQLServer;
 import com.jukusoft.rpgcreator.server.mancenter.network.impl.ManCenterServer;
@@ -39,7 +41,7 @@ public class ServerMain {
             System.exit(1);
         }
 
-        System.out.println("try to connect to mysql server " + mySQLConfig.getDBUrl() + ".");
+        System.out.println("try to connect to mysql server " + mySQLConfig.getDBUrl() + ".\n");
 
         //create database connection
         MySQLServer mySQLServer = new DefaultMySQLServer();
@@ -51,7 +53,12 @@ public class ServerMain {
             System.exit(1);
         }
 
-        System.out.println("connection to mysql server successful.");
+        System.out.println("connection to mysql server successful.\n");
+        System.out.println("check database now.\n");
+
+        //create new database manager and initialize database manager
+        DBManager dbManager = new MySQLDBManager(mySQLServer);
+        dbManager.init();
 
         System.out.println("try to start management server on port " + port + "now.");
 
