@@ -78,6 +78,12 @@ public class ServerMain {
             }
         }
 
+        System.out.println("newest available database version: " + dbManager.getNewestVersion());
+
+        if (dbManager.isUpgradeRequired()) {
+            //
+        }
+
         //optimize database tables
         dbManager.optimizeAllTables();
 

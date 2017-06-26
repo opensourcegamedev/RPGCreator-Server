@@ -25,6 +25,13 @@ public interface DBManager {
     public int getCurrentDBVersion ();
 
     /**
+    * get newest available version
+     *
+     * @return newest build number
+    */
+    public int getNewestVersion ();
+
+    /**
     * if check() returns false, this method can try to repair database structure
     */
     public boolean repair ();

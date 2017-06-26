@@ -100,6 +100,22 @@ public class MySQLDBManager implements DBManager {
     }
 
     @Override
+    public int getNewestVersion() {
+        try {
+            String line = FileUtils.readFile("./data/mysql/newestVersion.db", StandardCharsets.UTF_8);
+
+            int newestVersion = Integer.parseInt(line);
+
+            return newestVersion;
+        } catch (IOException e) {
+            System.err.println("./data/mysql/newestVersion.db is corrupt!");
+
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    @Override
     public boolean repair() {
         return false;
     }
