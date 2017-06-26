@@ -171,6 +171,15 @@ public class DefaultMySQLServer implements MySQLServer {
         return this.prefix;
     }
 
+    /**
+    * set table prefix (for JUnit tests)
+     *
+     * @param prefix table prefix
+    */
+    protected void setPrefix (String prefix) {
+        this.prefix = prefix;
+    }
+
     @Override
     public void disconnect() {
         if (this.conn != null) {
