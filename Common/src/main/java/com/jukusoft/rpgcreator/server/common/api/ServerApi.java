@@ -1,4 +1,4 @@
-package com.jukusoft.rpgcreator.server.common;
+package com.jukusoft.rpgcreator.server.common.api;
 
 /**
  * Created by Justin on 26.06.2017.
