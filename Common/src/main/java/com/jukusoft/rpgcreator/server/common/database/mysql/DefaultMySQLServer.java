@@ -125,6 +125,40 @@ public class DefaultMySQLServer implements MySQLServer {
     }
 
     @Override
+    public ResultSet getRow(String sql) throws SQLException {
+        PreparedStatement stmt = this.prepare(sql);
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            return rs;
+        }
+
+        throw new IllegalStateException("query doesnt returns any row.");
+    }
+
+    @Override
+    public ResultSet getRow(String sql, String... params) throws SQLException {
+        PreparedStatement stmt = this.prepare(sql);
+
+        int i = 1;
+
+        //parse params and set params to prepared statement
+        for (String str : params) {
+            stmt.setString(i, str);
+
+            i++;
+        }
+
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            return rs;
+        }
+
+        throw new IllegalStateException("query doesnt returns any row.");
+    }
+
+    @Override
     public List<String> listTables() {
         String sql = "SHOW TABLES; ";
 

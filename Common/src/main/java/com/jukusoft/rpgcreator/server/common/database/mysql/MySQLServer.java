@@ -23,6 +23,16 @@ public interface MySQLServer {
     public PreparedStatement prepare (String query) throws SQLException;
 
     /**
+     * get first row of result set
+     */
+    public ResultSet getRow (String sql) throws SQLException;
+
+    /**
+     * get first row of result set
+     */
+    public ResultSet getRow (String sql, String... params) throws SQLException;
+
+    /**
     * list all tables in database
      *
      * @return list with all tables in database

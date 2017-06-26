@@ -3,6 +3,7 @@ package com.jukusoft.rpgcreator.server.common.database.manager;
 import com.jukusoft.rpgcreator.server.common.database.DBManager;
 import com.jukusoft.rpgcreator.server.common.database.mysql.MySQLServer;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
@@ -46,6 +47,15 @@ public class MySQLDBManager implements DBManager {
 
     @Override
     public int getCurrentDBVersion() {
+        ResultSet rs = null;
+
+        try {
+            rs = this.server.query("SELECT * FROM `" + this.server.getPrefix() + "version` WHERE `name` = 'DATABASE_VERSION'; ");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+
         return 0;
     }
 
