@@ -62,6 +62,9 @@ public class ServerMain {
 
         System.out.println("current RPG Creator Editor database version: " + dbManager.getCurrentDBVersion());
 
+        //optimize database tables
+        dbManager.optimizeAllTables();
+
         System.out.println("try to start management server on port " + port + "now.");
 
         //create new ManCenter server and set port

@@ -244,6 +244,11 @@ public class DefaultMySQLServer implements MySQLServer {
 
     @Override
     public void optimize(String tableName) {
+        //add prefix, if neccessary
+        if (!tableName.startsWith(getPrefix())) {
+            tableName = getPrefix() + tableName;
+        }
+
         try {
             PreparedStatement stmt = this.prepare("OPTIMIZE TABLE ?; ");
             stmt.setString(1, tableName);

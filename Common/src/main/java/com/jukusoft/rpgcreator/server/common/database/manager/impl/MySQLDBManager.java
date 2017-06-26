@@ -73,7 +73,10 @@ public class MySQLDBManager implements DBManager {
         List<String> tables = this.server.listTables();
 
         for (String tableName : tables) {
-            //
+            System.out.println("optimize database table '" + tableName + "'...");
+
+            //optimize table
+            this.server.optimize(tableName);
         }
     }
 
