@@ -6,6 +6,7 @@ import com.jukusoft.rpgcreator.server.common.database.config.MySQLConfig;
 import com.jukusoft.rpgcreator.server.common.database.manager.impl.MySQLDBManager;
 import com.jukusoft.rpgcreator.server.common.database.mysql.DefaultMySQLServer;
 import com.jukusoft.rpgcreator.server.common.database.mysql.MySQLServer;
+import com.jukusoft.rpgcreator.server.mancenter.database.DBUpgrader;
 import com.jukusoft.rpgcreator.server.mancenter.network.impl.ManCenterServer;
 
 import java.io.File;
@@ -82,6 +83,15 @@ public class ServerMain {
 
         if (dbManager.isUpgradeRequired()) {
             System.out.println("database upgrade is required, try to upgrade database now...");
+
+            try {
+                dbManager.upgrade(new DBUpgrader());
+            } catch (SQLException e) {
+                System.err.println("Couldnt upgrade database, caused by SQLException: " + e.getLocalizedMessage());
+                e.printStackTrace();
+
+                System.exit(1);
+            }
         } else {
             System.out.println("database is up to date.");
         }
