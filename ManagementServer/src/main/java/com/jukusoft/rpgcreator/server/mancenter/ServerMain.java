@@ -85,7 +85,11 @@ public class ServerMain {
             System.out.println("database upgrade is required, try to upgrade database now...");
 
             try {
-                dbManager.upgrade(new DBUpgrader());
+                if (!dbManager.upgrade(new DBUpgrader())) {
+                    System.err.println("Couldnt upgrade database.");
+
+                    System.exit(1);
+                }
             } catch (SQLException e) {
                 System.err.println("Couldnt upgrade database, caused by SQLException: " + e.getLocalizedMessage());
                 e.printStackTrace();
