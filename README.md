@@ -5,7 +5,7 @@ Management & Game Server for RPG Creator Client, see [RPGCreator Github](https:/
 ## System Requirements
   - Java Runtime Environment (JRE)
   - MySQL Database 5.0+ (or above)
-  - minumum 256MB RAM
+  - minimum 256MB of RAM
   
 ## Installation
 
