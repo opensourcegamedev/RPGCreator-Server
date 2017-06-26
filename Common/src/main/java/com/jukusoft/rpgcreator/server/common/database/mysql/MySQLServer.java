@@ -27,6 +27,24 @@ public interface MySQLServer {
     */
     public List<String> listTables ();
 
+    /**
+    * check, if an table belongs to RPG Creator Editor
+     *
+     * @param tableName table name
+     *
+     * @return true, if table belongs to this engine
+    */
+    public boolean belongsToRCE (String tableName);
+
+    /**
+    * check, if this table belongs to an plugin
+     *
+     * @param tableName table name
+     *
+     * @return true, if table belongs to an plugin
+    */
+    public boolean isPluginTable (String tableName);
+
     public String getPrefix ();
 
     public void disconnect ();

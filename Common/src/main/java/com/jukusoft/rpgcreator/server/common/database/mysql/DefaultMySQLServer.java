@@ -157,6 +157,16 @@ public class DefaultMySQLServer implements MySQLServer {
     }
 
     @Override
+    public boolean belongsToRCE(String tableName) {
+        return tableName.startsWith(this.prefix);
+    }
+
+    @Override
+    public boolean isPluginTable(String tableName) {
+        return tableName.startsWith(this.prefix + "plugin_");
+    }
+
+    @Override
     public String getPrefix() {
         return this.prefix;
     }
