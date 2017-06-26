@@ -40,6 +40,15 @@ public interface MySQLServer {
     public List<String> listTables ();
 
     /**
+     * list all tables in database
+     *
+     * @param fullName use full table name
+     *
+     * @return list with all tables in database
+     */
+    public List<String> listTables (boolean fullName);
+
+    /**
     * check, if an table belongs to RPG Creator Editor
      *
      * @param tableName table name

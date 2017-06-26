@@ -68,6 +68,7 @@ public class MySQLDBManager implements DBManager {
 
     @Override
     public void optimizeAllTables() {
+        //list all tables first
 
     }
 

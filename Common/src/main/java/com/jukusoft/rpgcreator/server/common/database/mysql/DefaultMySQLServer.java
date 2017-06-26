@@ -160,6 +160,11 @@ public class DefaultMySQLServer implements MySQLServer {
 
     @Override
     public List<String> listTables() {
+        return listTables(true);
+    }
+
+    @Override
+    public List<String> listTables(boolean fullName) {
         String sql = "SHOW TABLES; ";
 
         //prepare statement
@@ -180,6 +185,11 @@ public class DefaultMySQLServer implements MySQLServer {
 
                 //check, if table belongs to RPG Creator Editor
                 if (this.belongsToRCE(tableName)) {
+                    if (!fullName) {
+                        //remove prefix
+                        tableName = tableName.substring(getPrefix().length());
+                    }
+
                     //add table to list
                     list.add(tableName);
                 } else {
